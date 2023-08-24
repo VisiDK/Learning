@@ -1,0 +1,128 @@
+import tkinter as tk
+import cv2
+from PIL import Image, ImageTk
+from tkinter import messagebox
+
+
+
+# Create a Bootstrap-inspired color palette
+bootstrap_bg = "#1E1E1E"
+bootstrap_fg = "#FFFFFF"
+bootstrap_button = "#007BFF"
+bootstrap_button_hover = "#0056b3"
+drone_box = "#fff"
+
+# Font size and style
+label_font = ("Helvetica", 24)
+button_font = ("Helvetica", 14, "bold")
+entry_font = ("Helvetica", 16)
+
+# Simulated user database (in memory)
+users = {
+    "admin": "admin",
+    # Add more users here
+}
+
+
+
+# Login Function
+def login():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    # You can add your own logic to validate the credentials here
+    if username in users and users[username] == password:
+        messagebox.showinfo("Login Successful", "Welcome, " + username + "!")
+        frame.pack_forget()
+        frame2.pack(pady=2, padx=60, fill="both", expand=True)  # Pack frame2 after successful login
+        frame3.pack()  # Pack frame3 after successful login
+    else:
+        messagebox.showerror("Login Failed", "Invalid username or password")
+
+# Logout function
+def logout():
+    print("Logout successful")
+    frame2.pack_forget()
+    frame3.pack_forget()
+    frame.pack()
+
+# Window creation
+root = tk.Tk()
+root.title("Login")
+root.configure(bg=bootstrap_bg)
+
+window_width = 500
+window_height = 300
+
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
+x_coordinate = (screen_width - window_width) // 2
+y_coordinate = (screen_height - window_height) // 2
+
+root.geometry(f"{window_width}x{window_height}+{x_coordinate}+{y_coordinate}")
+
+
+
+
+
+
+# Load a logo on the login site
+logo_image = Image.open("logo.png")
+logo_photo = ImageTk.PhotoImage(logo_image)
+
+frame = tk.Frame(root, bg=bootstrap_bg, bd=0, relief="solid")
+frame.pack(padx=20, pady=20)
+
+logo_label = tk.Label(frame, image=logo_photo)
+logo_label.pack(pady=10)
+
+# Username
+username_label = tk.Label(frame, text="Username:", bg=bootstrap_bg, fg=bootstrap_fg, font=label_font)
+username_label.pack(pady=5)
+username_entry = tk.Entry(frame, font=entry_font)
+username_entry.pack(pady=5)
+
+# Password
+password_label = tk.Label(frame, text="Password:", bg=bootstrap_bg, fg=bootstrap_fg, font=label_font)
+password_label.pack(pady=5)
+password_entry = tk.Entry(frame, show="*", font=entry_font)
+password_entry.pack(pady=5)
+
+login_button = tk.Button(frame, text="Login", command=login, font=button_font, bg=bootstrap_button, fg="#FFFFFF", activebackground=bootstrap_button_hover, activeforeground="#FFFFFF", bd=0, padx=15, pady=5, highlightthickness=0)
+login_button.pack(pady=10)
+
+
+
+
+
+# Main "app" frame (Frame 2)
+frame2 = tk.Frame(master=root, bg=bootstrap_bg)
+
+label2 = tk.Label(master=frame2, text="Welcome to FireGuard", font=("Arial", 24), fg=bootstrap_fg, bg=bootstrap_bg)
+label2.pack(pady=12, padx=10)
+
+# Load images # Add drones here!!!!
+drone1_image = Image.open("logo.png")
+drone1_photo = ImageTk.PhotoImage(drone1_image)
+
+drone2_image = Image.open("logo.png")
+drone2_photo = ImageTk.PhotoImage(drone2_image)
+
+# Create a frame to hold the images
+frame3 = tk.Frame(master=root, bg=bootstrap_bg)
+
+# Create and place the first image label
+logo_label2 = tk.Label(frame3, image=drone1_photo)
+logo_label2.pack(side="left", padx=10, pady=10)
+
+# Create and place the second image label
+another_label2 = tk.Label(frame3, image=drone2_photo)
+another_label2.pack(side="left", padx=10, pady=10)
+
+# Add logout button to Frame 2
+button2 = tk.Button(frame2, text="Logout", command=logout, font=button_font, bg=bootstrap_button, fg="#FFFFFF", activebackground=bootstrap_button_hover, activeforeground="#FFFFFF", bd=0, padx=15, pady=5, highlightthickness=0)
+button2.pack(pady=12, padx=10)
+
+
+root.mainloop()
